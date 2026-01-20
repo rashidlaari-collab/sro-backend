@@ -12,10 +12,9 @@ app.use('/uploads', express.static(path.join(__dirname, 'uploads'))); // <--- YE
 app.use(express.json({ limit: '50mb' })); // Photo upload limit badha di gayi hai
 app.use(express.urlencoded({ limit: '50mb', extended: true }));
 
-// MongoDB Connection
-mongoose.connect('mongodb://127.0.0.1:27017/sro_esl_db')
-    .then(() => console.log("✅ MongoDB Connected!"))
-    .catch(err => console.log("❌ Connection Error:", err));
+mongoose.connect(process.env.MONGO_URI)
+  .then(() => console.log("✅ MongoDB Connected!"))
+  .catch(err => console.log("❌ Connection Error:", err));
 
 // --- 2. MODELS ---
 
@@ -334,3 +333,4 @@ const PORT = process.env.PORT || 10000;
 app.listen(PORT, '0.0.0.0', () => {
     console.log(`🚀 Server running on port ${PORT}`);
 });
+
