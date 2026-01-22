@@ -5,9 +5,9 @@ const app = express();
 const path = require('path');
 
 // --- 1. SETTINGS & LIMITS (CORS & PHOTO SIZE FIX) ---
-app.use(cors()); // CORS sabse upar rahega
-// --- 1. SETTINGS & LIMITS ---
-app.use(cors());
+app.use(cors({
+    origin: 'https://sro.eslskill.in'
+}));
 app.use('/uploads', express.static(path.join(__dirname, 'uploads'))); // <--- YE WALI LINE ADD KAREIN
 app.use(express.json({ limit: '50mb' })); // Photo upload limit badha di gayi hai
 app.use(express.urlencoded({ limit: '50mb', extended: true }));
@@ -333,4 +333,5 @@ const PORT = process.env.PORT || 10000;
 app.listen(PORT, '0.0.0.0', () => {
     console.log(`🚀 Server running on port ${PORT}`);
 });
+
 
