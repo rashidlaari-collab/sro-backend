@@ -62,7 +62,24 @@ const FeeTransaction = mongoose.model('FeeTransaction', new mongoose.Schema({
 }));
 
 // --- 3. API ROUTES ---
+const certificateSchema = new mongoose.Schema({
+    certificateNo: { type: String, unique: true, required: true },
+    studentId: { type: mongoose.Schema.Types.ObjectId, ref: 'Student', required: true },
+    studentName: String,
+    enrollmentNo: String,
+    courseName: String,
+    issueDate: { type: String, default: () => new Date().toISOString().split('T')[0] },
+    marks: {
+        theory: Number,
+        practical: Number,
+        project: Number,
+        viva: Number
+    },
+    percentage: Number,
+    grade: String
+});
 
+const Certificate = mongoose.model('Certificate', certificateSchema);
 // --- DASHBOARD STATS ---
 // Backend route to get dashboard statistics
 app.get('/api/stats', async (req, res) => {
@@ -235,24 +252,7 @@ app.get('/api/courses/name/:name', async (req, res) => {
 });
 
 // --- CERTIFICATE MODEL ---
-const certificateSchema = new mongoose.Schema({
-    certificateNo: { type: String, unique: true, required: true },
-    studentId: { type: mongoose.Schema.Types.ObjectId, ref: 'Student', required: true },
-    studentName: String,
-    enrollmentNo: String,
-    courseName: String,
-    issueDate: { type: String, default: () => new Date().toISOString().split('T')[0] },
-    marks: {
-        theory: Number,
-        practical: Number,
-        project: Number,
-        viva: Number
-    },
-    percentage: Number,
-    grade: String
-});
 
-const Certificate = mongoose.model('Certificate', certificateSchema);
 
 // --- CERTIFICATE POST ROUTE ---
 app.post('/api/certificates/issue', async (req, res) => {
@@ -333,5 +333,4 @@ const PORT = process.env.PORT || 10000;
 app.listen(PORT, '0.0.0.0', () => {
     console.log(`🚀 Server running on port ${PORT}`);
 });
-
 
